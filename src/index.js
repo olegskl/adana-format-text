@@ -1,5 +1,6 @@
 import chalk from 'chalk';
 import computeStats from './compute-stats';
+import toRoundedPercentage from './to-rounded-percentage';
 
 const colors = {
   failed: chalk.red,
@@ -34,7 +35,7 @@ export default function textReporter(coverage, {
 
   function reportTagStats([ tag, stats ]) {
     const {passed, total} = stats;
-    const percentage = total ? (passed / total) * 100 : 0;
+    const percentage = total ? toRoundedPercentage(passed / total) : 0;
     const tagThreshold = thresholds.global[tag];
     const highlight = percentage >= tagThreshold ?
       colors.optimal :
@@ -42,8 +43,8 @@ export default function textReporter(coverage, {
 
     return [
       `${tagLabel[tag]}:`,
-      `${highlight(+percentage.toFixed(2))}%`,
-      `(covered ${passed}/${total}, threshold ${+tagThreshold.toFixed(2)}%)`,
+      `${highlight(percentage)}%`,
+      `(covered ${passed}/${total}, threshold ${tagThreshold})`,
     ].join(' ');
   }
 
