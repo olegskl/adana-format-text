@@ -9,23 +9,23 @@ const emptyResult = {
 
 const usedTags = Object.keys(emptyResult);
 
-function filesReducer(result, [ file, coverage ]) {
-  const tagStats = tags(coverage.locations, usedTags);
-  result.files[file] = {};
-  Object.entries(tagStats).forEach(([ tagName, tagData ]) => {
-    const { passed, total } = metrics(tagData);
-    result.global[tagName].passed += passed;
-    result.global[tagName].total += total;
-    result.files[file][tagName] = {passed, total};
-  });
-  return result;
-}
-
 export default function computeStats(coverage) {
-  return Object
-    .entries(coverage)
-    .reduce(filesReducer, {
-      global: emptyResult,
-      files: {},
+  function filesReducer(result, fileName) {
+    const {locations} = coverage[fileName];
+    const tagStats = tags(locations, usedTags);
+    result.files[fileName] = {};
+    Object.keys(tagStats).forEach(tagName => {
+      const tagData = tagStats[tagName];
+      const { passed, total } = metrics(tagData);
+      result.global[tagName].passed += passed;
+      result.global[tagName].total += total;
+      result.files[fileName][tagName] = {passed, total};
     });
+    return result;
+  }
+
+  return Object.keys(coverage).reduce(filesReducer, {
+    global: emptyResult,
+    files: {},
+  });
 }

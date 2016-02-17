@@ -15,11 +15,11 @@ const tagLabel = {
 };
 
 function isGlobalSuccess(stats, thresholds) {
-  return Object
-    .entries(thresholds)
-    .every(([ tag, threshold ]) => {
-      return (stats[tag].passed / stats[tag].total) * 100 >= threshold;
-    });
+  return Object.keys(thresholds).every(tagName => {
+    const {passed, total} = stats[tagName];
+    const ratio = total ? passed / total : 0;
+    return ratio * 100 >= thresholds[tagName];
+  });
 }
 
 export default function textReporter(coverage, {
@@ -33,16 +33,17 @@ export default function textReporter(coverage, {
     colors.optimal('Passed') :
     colors.failed('Failed');
 
-  function reportTagStats([ tag, stats ]) {
-    const {passed, total} = stats;
+  function reportTagStats(tagName) {
+    const tagStats = stats.global[tagName];
+    const {passed, total} = tagStats;
     const percentage = total ? toRoundedPercentage(passed / total) : 0;
-    const tagThreshold = thresholds.global[tag];
+    const tagThreshold = thresholds.global[tagName];
     const highlight = percentage >= tagThreshold ?
       colors.optimal :
       colors.failed;
 
     return [
-      `${tagLabel[tag]}:`,
+      `${tagLabel[tagName]}:`,
       `${highlight(percentage)}%`,
       `(covered ${passed}/${total}, threshold ${tagThreshold})`,
     ].join(' ');
@@ -56,7 +57,7 @@ export default function textReporter(coverage, {
 
   report.push(
     '------------------------------------------------------------',
-    Object.entries(stats.global).map(reportTagStats).join('\n'),
+    Object.keys(stats.global).map(reportTagStats).join('\n'),
     '------------------------------------------------------------'
   );
 
