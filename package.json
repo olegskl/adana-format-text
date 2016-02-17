@@ -4,9 +4,10 @@
   "description": "Adana format text",
   "main": "lib/index.js",
   "scripts": {
+    "lint": "eslint --ignore-path .gitignore .",
     "prepublish": "node_modules/babel-cli/bin/babel.js src --out-dir lib",
     "spec": "NODE_ENV=test mocha --slow 200 --compilers js:babel-core/register -R spec test/spec",
-    "test": "npm run spec"
+    "test": "npm run lint && npm run spec"
   },
   "author": "Oleg Sklyanchuk <sklyanchuk@gmail.com> (http://olegskl.com)",
   "license": "MIT",
