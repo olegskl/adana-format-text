@@ -1,5 +1,10 @@
 /**
- * Transforms a ratio to percentage and rounds to 2 decimals.
+ * Ratio to rounded percentage convertor.
+ * @module services/to-rounded-percentage
+ */
+
+/**
+ * Converts a ratio to percentage and rounds to 2 decimals.
  * @param   {Number} ratio Ratio to transform.
  * @returns {Number}       Rounded percentage value.
  * @example toRoundedPercentage(0.22225) === 22.23;
