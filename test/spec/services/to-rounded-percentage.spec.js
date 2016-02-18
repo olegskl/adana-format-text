@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import toRoundedPercentage from '../../src/to-rounded-percentage';
+import toRoundedPercentage from '../../../src/services/to-rounded-percentage';
 
 describe('toRoundedPercentage', function() {
   it('should round to two decimals', function() {

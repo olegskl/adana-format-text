@@ -1,65 +1,27 @@
-import chalk from 'chalk';
-import computeStats from './compute-stats';
-import toRoundedPercentage from './to-rounded-percentage';
-
-const colors = {
-  failed: chalk.red,
-  optimal: chalk.green,
-};
-
-const tagLabel = {
-  statement: 'Statements',
-  branch: 'Branches',
-  line: 'Lines',
-  function: 'Functions',
-};
-
-function isGlobalSuccess(stats, thresholds) {
-  return Object.keys(thresholds).every(tagName => {
-    const {passed, total} = stats[tagName];
-    const ratio = total ? passed / total : 0;
-    return ratio * 100 >= thresholds[tagName];
-  });
-}
+import createReportSummary from './reporters/report-summary';
+import createGlobalReport from './reporters/report-global';
+import createLocalFilesReport from './reporters/report-local-files';
+import reportWrap from './reporters/report-wrap';
+import computeMetrics from './services/compute-metrics';
+import {
+  isAboveThresholds,
+  areAboveThresholds,
+} from './services/above-thresholds';
 
 export default function textReporter(coverage, {
   environment = {},
   thresholds,
 }) {
-  const report = [];
-  const stats = computeStats(coverage);
-  const globalSuccess = isGlobalSuccess(stats.global, thresholds.global);
-  const overallResult = globalSuccess ?
-    colors.optimal('Passed') :
-    colors.failed('Failed');
+  const metrics = computeMetrics(coverage);
+  const isGlobalSuccess = isAboveThresholds(metrics.global, thresholds.global);
+  const isLocalSuccess = areAboveThresholds(metrics.files, thresholds.local);
+  const isOverallSuccess = isGlobalSuccess && isLocalSuccess;
+  const reportSummary = createReportSummary(isOverallSuccess, environment);
 
-  function reportTagStats(tagName) {
-    const tagStats = stats.global[tagName];
-    const {passed, total} = tagStats;
-    const percentage = total ? toRoundedPercentage(passed / total) : 0;
-    const tagThreshold = thresholds.global[tagName];
-    const highlight = percentage >= tagThreshold ?
-      colors.optimal :
-      colors.failed;
-
-    return [
-      `${tagLabel[tagName]}:`,
-      `${highlight(percentage)}%`,
-      `(covered ${passed}/${total}, threshold ${tagThreshold})`,
-    ].join(' ');
-  }
-
-  if (environment.name) {
-    report.push(
-      `${overallResult} overall test coverage on ${environment.name}`
-    );
-  }
-
-  report.push(
-    '------------------------------------------------------------',
-    Object.keys(stats.global).map(reportTagStats).join('\n'),
-    '------------------------------------------------------------'
-  );
-
-  return report.join('\n');
+  return reportWrap([
+    reportSummary,
+    createGlobalReport(metrics.global, thresholds.global),
+    createLocalFilesReport(metrics.files, thresholds.local),
+    reportSummary,
+  ]);
 }

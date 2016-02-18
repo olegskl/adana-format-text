@@ -23,7 +23,7 @@ function createEmptyResult(tagNameList) {
   }, {});
 }
 
-export default function computeStats(coverage) {
+export default function computeMetrics(coverage) {
   function filesReducer(result, fileName) {
     const {locations} = coverage[fileName];
     const tagStats = tags(locations, tagsToSelect);
