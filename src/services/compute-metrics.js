@@ -1,4 +1,9 @@
-import {tags, metrics} from 'adana-analyze';
+/**
+ * Metrics calculator and aggregator.
+ * @module services/compute-metrics
+ */
+
+import { tags, metrics } from 'adana-analyze';
 
 /**
  * Code coverage tags used in the report.
@@ -12,34 +17,51 @@ const tagsToSelect = [
 ];
 
 /**
- * Generates an empty result.
+ * Generates an empty metrics object.
  * @param   {Array}  tagNameList Tag names.
- * @returns {Object}             Empty result with default values.
+ * @returns {Object}             Empty metrics.
  */
-function createEmptyResult(tagNameList) {
+function createEmptyMetrics(tagNameList) {
   return tagNameList.reduce((result, tagName) => {
-    result[tagName] = {passed: 0, total: 0};
+    result[tagName] = { passed: 0, total: 0 };
     return result;
   }, {});
 }
 
+/**
+ * Computes the report metrics (global and per-file).
+ * @param   {Object} coverage Adana coverage.
+ * @returns {Object}          Report metrics.
+ * @example
+ *  computeMetrics({
+ *    'foo.js': {hash: ..., path: ..., locations: ...},
+ *    'bar.js': {hash: ..., path: ..., locations: ...},
+ *  });
+ *  // Returns:
+ *  // {
+ *  //   projectMetrics: {statement: {passed: 0, total: 0}, ...},
+ *  //   filesMetrics: {
+ *  //     'foo.js': {statement: {passed: 0, total: 0}, ...},
+ *  //     'bar.js': {statement: {passed: 0, total: 0}, ...},
+ *  //   }
+ *  // }
+ */
 export default function computeMetrics(coverage) {
-  function filesReducer(result, fileName) {
-    const {locations} = coverage[fileName];
+  const emptyMetrics = createEmptyMetrics(tagsToSelect);
+  const result = { projectMetrics: emptyMetrics, filesMetrics: {} };
+
+  Object.keys(coverage).forEach(fileName => {
+    const { locations } = coverage[fileName];
     const tagStats = tags(locations, tagsToSelect);
-    result.files[fileName] = {};
+    result.filesMetrics[fileName] = {};
     Object.keys(tagStats).forEach(tagName => {
       const tagData = tagStats[tagName];
       const { passed, total } = metrics(tagData);
-      result.global[tagName].passed += passed;
-      result.global[tagName].total += total;
-      result.files[fileName][tagName] = {passed, total};
+      result.projectMetrics[tagName].passed += passed;
+      result.projectMetrics[tagName].total += total;
+      result.filesMetrics[fileName][tagName] = { passed, total };
     });
-    return result;
-  }
-
-  return Object.keys(coverage).reduce(filesReducer, {
-    global: createEmptyResult(tagsToSelect),
-    files: {},
   });
+
+  return result;
 }
