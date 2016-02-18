@@ -1,6 +1,6 @@
 import reportUnit from './report-unit';
 import findCommonPath from '../services/find-common-path';
-import {isAboveThresholds} from '../services/above-thresholds';
+import {areMetricsAboveThresholds} from '../services/check-against-thresholds';
 
 const separator = /\\|\//;
 function normalizePath(path) {
@@ -27,7 +27,7 @@ function findFilesFailingThresholds(fileMetricsIndex, thresholds) {
   return Object.keys(fileMetricsIndex)
     .filter(fileName => {
       const fileMetrics = fileMetricsIndex[fileName];
-      return !isAboveThresholds(fileMetrics, thresholds);
+      return !areMetricsAboveThresholds(fileMetrics, thresholds);
     })
     .map(fileName => {
       return {
