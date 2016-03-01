@@ -4,10 +4,11 @@
   "description": "Adana format text",
   "main": "dist/index.js",
   "scripts": {
+    "transpile": "babel src --out-dir dist",
     "lint": "eslint --ignore-path .gitignore .",
-    "prepublish": "babel src --out-dir dist",
     "spec": "NODE_ENV=test mocha --slow 200 --compilers js:babel-core/register -R spec test/spec/**/*.spec.js",
-    "test": "npm run lint && npm run spec"
+    "test": "npm run lint && npm run spec",
+    "prepublish": "npm run test && npm run transpile"
   },
   "author": "Oleg Sklyanchuk <sklyanchuk@gmail.com> (http://olegskl.com)",
   "license": "MIT",
