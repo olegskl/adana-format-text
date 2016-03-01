@@ -3,7 +3,7 @@
  * @module services/compute-metrics
  */
 
-import { tags, metrics } from 'adana-analyze';
+import {tags, metrics} from 'adana-analyze';
 
 /**
  * Code coverage tags used in the report.
@@ -13,7 +13,7 @@ const tagsToSelect = [
   'statement',
   'branch',
   'line',
-  'function',
+  'function'
 ];
 
 /**
@@ -23,7 +23,7 @@ const tagsToSelect = [
  */
 function createEmptyMetrics(tagNameList) {
   return tagNameList.reduce((result, tagName) => {
-    result[tagName] = { passed: 0, total: 0 };
+    result[tagName] = {passed: 0, total: 0};
     return result;
   }, {});
 }
@@ -48,18 +48,18 @@ function createEmptyMetrics(tagNameList) {
  */
 export default function computeMetrics(coverage) {
   const emptyMetrics = createEmptyMetrics(tagsToSelect);
-  const result = { projectMetrics: emptyMetrics, filesMetrics: {} };
+  const result = {projectMetrics: emptyMetrics, filesMetrics: {}};
 
   Object.keys(coverage).forEach(fileName => {
-    const { locations } = coverage[fileName];
+    const {locations} = coverage[fileName];
     const tagStats = tags(locations, tagsToSelect);
     result.filesMetrics[fileName] = {};
     Object.keys(tagStats).forEach(tagName => {
       const tagData = tagStats[tagName];
-      const { passed, total } = metrics(tagData);
+      const {passed, total} = metrics(tagData);
       result.projectMetrics[tagName].passed += passed;
       result.projectMetrics[tagName].total += total;
-      result.filesMetrics[fileName][tagName] = { passed, total };
+      result.filesMetrics[fileName][tagName] = {passed, total};
     });
   });
 

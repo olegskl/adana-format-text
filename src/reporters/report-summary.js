@@ -1,4 +1,4 @@
-import { optimal, failed } from '../colors';
+import {optimal, failed} from '../colors';
 
 export default function createReportSummary(isSuccess, environment) {
   const overallResultMessage = isSuccess ? optimal('Passed') : failed('Failed');

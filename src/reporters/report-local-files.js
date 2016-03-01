@@ -8,7 +8,7 @@ function normalizePath(path) {
 }
 
 function reportFailedLocalFile(localThresholds) {
-  return function({ name, metrics }) {
+  return function ({name, metrics}) {
     return reportUnit(name, metrics, localThresholds);
   };
 }
@@ -32,7 +32,7 @@ function findFilesFailingThresholds(fileMetricsIndex, thresholds) {
     .map(fileName => {
       return {
         name: normalizePath(fileName),
-        metrics: fileMetricsIndex[fileName],
+        metrics: fileMetricsIndex[fileName]
       };
     });
 }

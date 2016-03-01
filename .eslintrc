@@ -2,7 +2,5 @@
   "env": {
     "node": true
   },
-  "extends": [
-    "metalab/standard"
-  ]
+  "extends": "meetic"
 }

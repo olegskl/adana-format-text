@@ -8,6 +8,6 @@ export default function reportWrap(report) {
   return [
     doubleLineBreak,
     report.filter(nonEmpty).join('\n\n'),
-    doubleLineBreak,
+    doubleLineBreak
   ].join('\n');
 }

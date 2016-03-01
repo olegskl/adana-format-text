@@ -1,12 +1,12 @@
 import toRoundedPercentage from '../services/to-rounded-percentage';
-import { optimal, failed } from '../colors';
+import {optimal, failed} from '../colors';
 
 const singleLineBreak = '-'.repeat(60);
 const tagLabel = {
   statement: 'Statements',
   branch: 'Branches',
   line: 'Lines',
-  function: 'Functions',
+  function: 'Functions'
 };
 
 function tagMetricsReporterFactory(metrics, thresholds) {
@@ -20,7 +20,7 @@ function tagMetricsReporterFactory(metrics, thresholds) {
     return [
       `${tagLabel[tagName]}:`,
       `${highlight(percentage)}%`,
-      `(covered ${passed}/${total}, threshold ${tagThreshold}%)`,
+      `(covered ${passed}/${total}, threshold ${tagThreshold}%)`
     ].join(' ');
   };
 }
@@ -28,5 +28,5 @@ function tagMetricsReporterFactory(metrics, thresholds) {
 export default function reportUnit(title, metrics, thresholds) {
   const tagMetricsReporter = tagMetricsReporterFactory(metrics, thresholds);
   const report = Object.keys(metrics).map(tagMetricsReporter);
-  return [ title, singleLineBreak, ...report ].join('\n');
+  return [title, singleLineBreak, ...report].join('\n');
 }
