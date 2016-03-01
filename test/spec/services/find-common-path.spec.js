@@ -9,16 +9,16 @@ describe('findCommonPath', function () {
 
   it('should return an empty string for different paths', function () {
     expect(findCommonPath([
-      'src/foo.js',
-      'lib/bar.js'
+      'aaa/foo.js',
+      'bbb/bar.js'
     ])).to.equal('');
   });
 
   it('should return a common path for path sharing same root', function () {
     expect(findCommonPath([
-      'src/foo.js',
-      'src/bar.js'
-    ])).to.equal('src');
+      'aaa/foo.js',
+      'aaa/bar.js'
+    ])).to.equal('aaa');
   });
 
 });
