@@ -1,7 +1,7 @@
 {
   "name": "adana-format-text",
   "version": "0.0.1",
-  "description": "Adana format text",
+  "description": "Generate a pretty output of Adana coverage data.",
   "main": "dist/index.js",
   "scripts": {
     "transpile": "babel src --out-dir dist",
