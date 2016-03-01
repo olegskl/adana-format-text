@@ -4,6 +4,7 @@
  */
 
 import {tags, metrics} from 'adana-analyze';
+import {extendWithLines} from './alt-lines'; // FIXME temporary solution
 
 /**
  * Code coverage tags used in the report.
@@ -55,6 +56,9 @@ export default function computeMetrics(coverage) {
   Object.keys(coverage).forEach(fileName => {
     const {locations} = coverage[fileName];
     const tagStats = tags(locations, tagsToSelect);
+
+    extendWithLines(tagStats, locations); // FIXME temporary solution
+
     result.filesMetrics[fileName] = {};
     Object.keys(tagStats).forEach(tagName => {
       const tagData = tagStats[tagName];

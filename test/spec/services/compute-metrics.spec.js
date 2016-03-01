@@ -12,13 +12,13 @@ describe('computeMetrics', function () {
   const fixtureProjectMetrics = {
     statement: {passed: 109, total: 109},
     branch: {passed: 85, total: 98},
-    line: {passed: 268, total: 268},
+    line: {passed: 109, total: 109},
     function: {passed: 43, total: 43}
   };
   const fixtureFileMetrics = {
     statement: {passed: 2, total: 2},
     branch: {passed: 2, total: 2},
-    line: {passed: 3, total: 3},
+    line: {passed: 2, total: 2},
     function: {passed: 1, total: 1}
   };
 
