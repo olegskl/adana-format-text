@@ -10,8 +10,21 @@
     "test": "npm run lint && npm run spec",
     "prepublish": "npm run test && npm run transpile"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/olegskl/adana-format-text.git"
+  },
+  "keywords": [
+    "coverage",
+    "adana",
+    "text"
+  ],
   "author": "Oleg Sklyanchuk <sklyanchuk@gmail.com> (http://olegskl.com)",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/olegskl/adana-format-text/issues"
+  },
+  "homepage": "https://github.com/olegskl/adana-format-text",
   "dependencies": {
     "adana-analyze": "^0.1.1"
   },
