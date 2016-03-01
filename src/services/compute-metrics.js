@@ -7,6 +7,7 @@ import {tags, metrics} from 'adana-analyze';
 
 /**
  * Code coverage tags used in the report.
+ * @private
  * @type {Array}
  */
 const tagsToSelect = [
@@ -18,8 +19,9 @@ const tagsToSelect = [
 
 /**
  * Generates an empty metrics object.
- * @param   {Array}  tagNameList Tag names.
- * @returns {Object}             Empty metrics.
+ * @private
+ * @param {Array} tagNameList - Tag names.
+ * @return {Object} Empty metrics.
  */
 function createEmptyMetrics(tagNameList) {
   return tagNameList.reduce((result, tagName) => {
@@ -30,8 +32,8 @@ function createEmptyMetrics(tagNameList) {
 
 /**
  * Computes the report metrics (global and per-file).
- * @param   {Object} coverage Adana coverage.
- * @returns {Object}          Report metrics.
+ * @param {Object} coverage - Adana coverage.
+ * @return {Object} Report metrics.
  * @example
  *  computeMetrics({
  *    'foo.js': {hash: ..., path: ..., locations: ...},

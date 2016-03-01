@@ -1,3 +1,8 @@
+/**
+ * Text reporter.
+ * @module text-reporter
+ */
+
 import createReportSummary from './reporters/report-summary';
 import createGlobalReport from './reporters/report-global';
 import createLocalFilesReport from './reporters/report-local-files';
@@ -8,6 +13,14 @@ import {
   areFilesMetricsAboveThresholds
 } from './services/check-against-thresholds';
 
+/**
+ * Text reporter for Adana-compatible results.
+ * @param {Object} coverage - Adana-compatible code coverage.
+ * @param {Object} options - Options.
+ * @param {Object} options.environment - Environment where the tests were run.
+ * @param {Object} options.thresholds - Thresholds for comparison with coverage metrics.
+ * @return {String} Report ready to be written to stdout.
+ */
 export default function textReporter(coverage, {
   environment = {},
   thresholds

@@ -5,9 +5,10 @@
 
 /**
  * Common path reducer for use in Array.prototype.reduce.
- * @param   {Array<String>} a File path, e.g. `['src', 'foo.js'];`.
- * @param   {Array<String>} b File path, e.g. `['src', 'bar.js'];`.
- * @returns {Array<String>}   Common path, e.g. `['src']`.
+ * @private
+ * @param {[String]} a - File path, e.g. `['src', 'foo.js'];`.
+ * @param {[String]} b - File path, e.g. `['src', 'bar.js'];`.
+ * @return {[String]} Common path, e.g. `['src']`.
  */
 function commonPathReducer(a, b) {
   const result = [];
@@ -21,8 +22,8 @@ function commonPathReducer(a, b) {
 
 /**
  * Determines a common root path in the list of file paths.
- * @param   {Array<String>} filePaths List of paths.
- * @returns {String}                  Common root path.
+ * @param {[String]} filePaths - List of paths.
+ * @return {String} Common root path.
  * @example
  *  findCommonPath(['src/foo.js', 'src/bar.js']); // 'src'
  */
