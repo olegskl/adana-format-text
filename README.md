@@ -1,5 +1,7 @@
 # adana-format-text
 
+[![Build Status](https://travis-ci.org/olegskl/adana-format-text.svg?branch=master)](https://travis-ci.org/olegskl/adana-format-text)
+
 Unit test coverage reporter for [Adana](https://github.com/adana-coverage/babel-plugin-transform-adana).
 
 ## Installation
